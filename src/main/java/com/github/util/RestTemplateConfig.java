@@ -1,12 +1,9 @@
 package com.github.util;
 
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -71,27 +68,6 @@ public class RestTemplateConfig {
 
 		return clientHttpRequestFactory;
 	}
-
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder, StringHttpMessageConverter stringHttpMessageConverter) {
-
-		RestTemplate restTemplate = builder.requestFactory(clientHttpRequestFactory()).build();
-		restTemplate.getMessageConverters().set(1, stringHttpMessageConverter);
-
-		return restTemplate;
-	}
-
-	/*@Bean("proxyRestTemplate")
-	public RestTemplate proxyRestTemplate(RestTemplateBuilder builder, StringHttpMessageConverter stringHttpMessageConverter) {
-
-		ClientHttpRequestFactory clientHttpRequestFactory = clientHttpRequestFactory();
-		SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = (SimpleClientHttpRequestFactory) clientHttpRequestFactory;
-		simpleClientHttpRequestFactory.setProxy(new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("127.0.0.1", 1090)));
-		RestTemplate restTemplate = builder.requestFactory(clientHttpRequestFactory).build();
-		restTemplate.getMessageConverters().set(1, stringHttpMessageConverter);
-
-		return restTemplate;
-	}*/
 
 }
 
