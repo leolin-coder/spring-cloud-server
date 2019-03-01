@@ -4,49 +4,28 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github</groupId>
-	<artifactId>cloud-server01</artifactId>
+	<artifactId>eureka-server</artifactId>
 	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
-	<name>cloud-server</name>
-	<description>cloud-server</description>
-
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.3.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+	<name>eureka-server</name>
+	<description>eureka-server</description>
 
 	<properties>
-        <!-- 指定image名称 -->
-		<docker.image.prefix>cloud-server01</docker.image.prefix>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.7</java.version>
-		<druid-spring-boot-starter.version>1.1.9</druid-spring-boot-starter.version>
-		<mybatis-spring-boot-starter.version>1.3.2</mybatis-spring-boot-starter.version>
-		<pagehelper-spring-boot-starter.version>1.2.3</pagehelper-spring-boot-starter.version>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
+		<spring-boot-admin.version>2.0.2</spring-boot-admin.version>
 
-		<thymeleaf.version>3.0.8.RELEASE</thymeleaf.version>
-		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
-		<commons-lang.version>2.6</commons-lang.version>
-		<commons-io.version>2.6</commons-io.version>
-		<commons-codec.version>1.11</commons-codec.version>
-		<fastjson.version>1.2.40</fastjson.version>
 	</properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Finchley.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+	<parent>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-parent</artifactId>
+		<version>Finchley.SR1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
 
 	<dependencies>
 		<dependency>
@@ -64,27 +43,90 @@
 			</exclusions>
 		</dependency>
 
-        <!-- eureka-server -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-        </dependency>
+		<!-- spring-boot-admin-client
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+		</dependency>
+		-->
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!-- eureka server -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+		</dependency>
 	</dependencies>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!--<dependency>-->
+				<!--<groupId>de.codecentric</groupId>-->
+				<!--<artifactId>spring-boot-admin-dependencies</artifactId>-->
+				<!--<version>${spring-boot-admin.version}</version>-->
+				<!--<type>pom</type>-->
+				<!--<scope>import</scope>-->
+			<!--</dependency>-->
+		</dependencies>
+	</dependencyManagement>
 
-	<!--<repositories>-->
-                <!--<repository>-->
-                        <!--<id>central</id>-->
-                        <!--<url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
-                <!--</repository>-->
-        <!--</repositories>-->
-        <!--<pluginRepositories>-->
-                <!--<pluginRepository>-->
-                        <!--<id>central</id>-->
-                        <!--<url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
-                <!--</pluginRepository>-->
-        <!--</pluginRepositories>-->
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+		</repository>
+
+		<repository>
+			<id>nexus-t</id>
+			<url>http://nexus.test.basicedu.chaoxing.com/repository/3rd/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+		</pluginRepository>
+
+		<pluginRepository>
+			<id>nexus-t</id>
+			<url>http://nexus.test.basicedu.chaoxing.com/repository/3rd/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+
+
+	<!--<distributionManagement>-->
+	<!--<snapshotRepository>-->
+	<!--<id>nexus</id>  &lt;!&ndash; 此id值要跟/usr/local/maven/conf/settings.xml文件中的名字一定要对应上 &ndash;&gt;-->
+	<!--<name>Nexus Snapshot</name>-->
+	<!--<url>http://nexus.test.basicedu.chaoxing.com/repository/3rd/</url>-->
+	<!--</snapshotRepository>-->
+	<!--<site>-->
+	<!--<id>nexus</id>-->
+	<!--<name>Nexus Sites</name>-->
+	<!--<url>dav:http://nexus.test.basicedu.chaoxing.com/repository/3rd/</url>-->
+	<!--</site>-->
+	<!--</distributionManagement>-->
 
 	<build>
 		<resources>
@@ -93,6 +135,9 @@
 				<includes>
 					<include>**/*.xml</include>
 				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
 		<plugins>
@@ -140,7 +185,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 
